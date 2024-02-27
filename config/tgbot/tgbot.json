@@ -1,0 +1,5 @@
+{
+  "chat_id": "#{tg-bot-chat}",
+  "text": "#{tg-bot-text}",
+  "disable_notification": true
+}

@@ -1,0 +1,94 @@
+plugins {
+    id "java"
+    id "io.qameta.allure-report" version "2.11.2"
+}
+
+group = "ru.digital_spirit"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
+    mavenCentral()
+}
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+tasks.withType(JavaCompile).configureEach {
+    options.release = 17
+    options.encoding = "UTF-8"
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+logging.captureStandardOutput LogLevel.INFO
+
+ext {
+    allureResultsDir = "$buildDir/allure-results"
+    allureTmsPattern = "https://jira.digital-spirit.ru/secure/Tests.jspa#/testCase/{}"
+    restAssuredVersion = "5.3.1"
+    junitVersion = "5.10.0"
+    cucumberVersion = "7.13.0"
+    allureVersion = "2.24.0"
+}
+
+dependencies {
+    //Framework libraries
+    //DB Drivers
+    implementation "com.oracle.database.jdbc:ojdbc8:19.6.0.0"
+    implementation "org.postgresql:postgresql:42.6.0"
+    //MQ Drivers
+    implementation group: 'com.ibm.mq', name: 'com.ibm.mq.allclient', version: '9.3.4.1'
+    //REST Assured
+    implementation "io.rest-assured:rest-assured:$restAssuredVersion"
+    implementation "io.rest-assured:json-path:$restAssuredVersion"
+    implementation "io.rest-assured:json-schema-validator:$restAssuredVersion"
+    //JSONs
+    implementation "org.json:json:20230618"
+    implementation "com.google.code.gson:gson:2.10.1"
+    implementation "net.javacrumbs.json-unit:json-unit-assertj:2.36.0"
+    // XML(HTML)
+    implementation "org.jsoup:jsoup:1.17.2"
+    //Loggers
+    implementation "org.slf4j:slf4j-simple:2.0.7"
+    //Configuration
+    implementation "org.aeonbits.owner:owner:1.0.12"
+
+    //Test libraries
+    //JUnit5
+    testImplementation platform("org.junit:junit-bom:$junitVersion")
+    testImplementation "org.junit.jupiter:junit-jupiter"
+    testImplementation "org.junit.vintage:junit-vintage-engine"
+    //Cucumber
+    testImplementation "io.cucumber:cucumber-java:$cucumberVersion"
+    testImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
+    //Allure
+    testImplementation platform("io.qameta.allure:allure-bom:$allureVersion")
+    testImplementation "io.qameta.allure:allure-cucumber7-jvm"
+    testImplementation "io.qameta.allure:allure-junit-platform"
+        allureReport(files(allureResultsDir))
+}
+
+test {
+    systemProperty "cucumber.filter.tags", System.getProperty("cucumber.filter.tags")
+}
+
+tasks.withType(Test) {
+    systemProperty "cucumber.junit-platform.naming-strategy", "long"
+    systemProperties(System.getProperties())
+    systemProperty "file.encoding", "UTF-8"
+    systemProperty "allure.results.directory", allureResultsDir
+    systemProperty "allure.link.tms.pattern", allureTmsPattern
+    defaultCharacterEncoding = "UTF-8"
+    testLogging {
+        lifecycle {
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
+}
