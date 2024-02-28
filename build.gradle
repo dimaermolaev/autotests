@@ -65,13 +65,20 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter"
     testImplementation "org.junit.vintage:junit-vintage-engine"
     //Cucumber
-    testImplementation "io.cucumber:cucumber-java:$cucumberVersion"
-    testImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
+    //testImplementation "io.cucumber:cucumber-java:$cucumberVersion"
+    //testImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
     //Allure
     testImplementation platform("io.qameta.allure:allure-bom:$allureVersion")
     testImplementation "io.qameta.allure:allure-cucumber7-jvm"
     testImplementation "io.qameta.allure:allure-junit-platform"
         allureReport(files(allureResultsDir))
+}
+task junit(type: Test) {
+    useJUnitPlatform {
+        includeTags "junit"
+        excludeTags "st"
+    }
+    useJUnit()
 }
 
 test {
