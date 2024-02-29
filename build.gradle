@@ -64,6 +64,8 @@ dependencies {
     testImplementation platform("org.junit:junit-bom:$junitVersion")
     testImplementation "org.junit.jupiter:junit-jupiter"
     testImplementation "org.junit.vintage:junit-vintage-engine"
+    //Jackson
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.17.0-rc1"
     //Cucumber
     //testImplementation "io.cucumber:cucumber-java:$cucumberVersion"
     //testImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
