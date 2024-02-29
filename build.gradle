@@ -73,13 +73,13 @@ dependencies {
     testImplementation "io.qameta.allure:allure-junit-platform"
         allureReport(files(allureResultsDir))
 }
-task junit(type: Test) {
+/*task junit(type: Test) {
     useJUnitPlatform {
         includeTags "junit"
         excludeTags "st"
     }
     useJUnit()
-}
+}*/
 
 test {
     systemProperty "cucumber.filter.tags", System.getProperty("cucumber.filter.tags")
