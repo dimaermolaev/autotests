@@ -1,7 +1,8 @@
 package model;
 
-public class LoginModel {
-    String email, password;
+public class LoginBodyModel {
+    String email;
+    String password;
 
     public void setEmail(String email) {
         this.email = email;
@@ -11,7 +12,6 @@ public class LoginModel {
         this.password = password;
     }
 
-    // Геттеры
     public String getEmail() {
         return email;
     }

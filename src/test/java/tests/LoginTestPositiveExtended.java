@@ -1,10 +1,12 @@
 package tests;
 
-import model.LoginModel;
+import model.LoginBodyModel;
+import model.LoginResponseModel;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 
 public class LoginTestPositiveExtended {
@@ -12,19 +14,22 @@ public class LoginTestPositiveExtended {
     private static String expectedToken = "QpwL5tke4Pnpja7X4";
     @Test
     public void loginTest(){
-        LoginModel loginModel = new LoginModel();
-        loginModel.setEmail("eve.holt@reqres.in");
-        loginModel.setPassword("cityslicka");
-        given()
+        LoginBodyModel loginBody = new LoginBodyModel();
+        loginBody.setEmail("eve.holt@reqres.in");
+        loginBody.setPassword("cityslicka");
+
+        LoginResponseModel loginResponse = given()
                 .log().uri()
                 .contentType(JSON)
-                .body(loginModel)
+                .body(loginBody)
                 .when()
                 .post(URL)
                 .then()
                 .log().status()
                 .log().body()
                 .statusCode(200)
-                .body("token", is(expectedToken));
+                .body("token", is(expectedToken))
+                .extract().as(LoginResponseModel.class);
+        assertThat(loginResponse.getToken()).isEqualTo(expectedToken);
     }
 }
