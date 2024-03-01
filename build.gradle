@@ -35,6 +35,8 @@ ext {
     junitVersion = "5.10.0"
     cucumberVersion = "7.13.0"
     allureVersion = "2.24.0"
+    assertJVersion = "3.25.1"
+    lombokVersion = "1.18.30"
 }
 
 dependencies {
@@ -67,7 +69,12 @@ dependencies {
     //Jackson
     implementation "com.fasterxml.jackson.core:jackson-databind:2.17.0-rc1"
     //AssertJ
-    implementation "org.assertj:assertj-core:3.25.1"
+    implementation "org.assertj:assertj-core:$assertJVersion"
+    //Lambok
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
     //Cucumber
     //testImplementation "io.cucumber:cucumber-java:$cucumberVersion"
     //testImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
