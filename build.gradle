@@ -76,20 +76,28 @@ dependencies {
     testCompileOnly "org.projectlombok:lombok:$lombokVersion"
     testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
     //Allure
-    testImplementation "io.qameta.allure:allure-junit5:$allureVersion"
+    //testImplementation "io.qameta.allure:allure-junit5:$allureVersion"
     implementation "io.qameta.allure:allure-rest-assured:$allureVersion"
 
     allureReport(files(allureResultsDir))
 
 
 }
-/*task junit(type: Test) {
+task junit(type: Test) {
+    delete "$buildDir/allure-results"
     useJUnitPlatform {
         includeTags "junit"
         excludeTags "st"
     }
     useJUnit()
-}*/
+}
+/*
+task cleanAllureReports(type: Delete) {
+    delete "$buildDir/allure-results"
+}
+*/
+
+
 
 test {
     systemProperty "cucumber.filter.tags", System.getProperty("cucumber.filter.tags")
