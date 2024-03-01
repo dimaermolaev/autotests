@@ -1,6 +1,6 @@
 plugins {
     id "java"
-    id "io.qameta.allure-report" version "2.11.2"
+    id "io.qameta.allure" version "2.11.2"
 }
 
 group = "ru.digital_spirit"
@@ -30,7 +30,7 @@ logging.captureStandardOutput LogLevel.INFO
 
 ext {
     allureResultsDir = "$buildDir/allure-results"
-    allureTmsPattern = "https://jira.digital-spirit.ru/secure/Tests.jspa#/testCase/{}"
+    //allureTmsPattern = "https://jira.digital-spirit.ru/secure/Tests.jspa#/testCase/{}"
     restAssuredVersion = "5.3.1"
     junitVersion = "5.10.0"
     cucumberVersion = "7.13.0"
@@ -75,14 +75,13 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
     testCompileOnly "org.projectlombok:lombok:$lombokVersion"
     testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
-    //Cucumber
-    //testImplementation "io.cucumber:cucumber-java:$cucumberVersion"
-    //testImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
     //Allure
-    testImplementation platform("io.qameta.allure:allure-bom:$allureVersion")
-    testImplementation "io.qameta.allure:allure-cucumber7-jvm"
-    testImplementation "io.qameta.allure:allure-junit-platform"
-        allureReport(files(allureResultsDir))
+    testImplementation "io.qameta.allure:allure-junit5:$allureVersion"
+    implementation "io.qameta.allure:allure-rest-assured:$allureVersion"
+
+    allureReport(files(allureResultsDir))
+
+
 }
 /*task junit(type: Test) {
     useJUnitPlatform {
@@ -97,11 +96,11 @@ test {
 }
 
 tasks.withType(Test) {
-    systemProperty "cucumber.junit-platform.naming-strategy", "long"
+    //systemProperty "cucumber.junit-platform.naming-strategy", "long"
     systemProperties(System.getProperties())
     systemProperty "file.encoding", "UTF-8"
     systemProperty "allure.results.directory", allureResultsDir
-    systemProperty "allure.link.tms.pattern", allureTmsPattern
+    //systemProperty "allure.link.tms.pattern", allureTmsPattern
     defaultCharacterEncoding = "UTF-8"
     testLogging {
         lifecycle {

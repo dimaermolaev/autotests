@@ -1,9 +1,8 @@
 package model;
 
 import lombok.Data;
-
 @Data
 public class LoginBodyModel {
-    String email;
-    String password;
+    private String email;
+    private String password;
 }

@@ -1,15 +1,17 @@
 package tests;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import model.LoginBodyModel;
 import model.LoginResponseModel;
 import org.junit.Test;
+import org.junit.jupiter.api.Tag;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class LoginTestPositiveExtended {
+public class LoginTestPositiveExtended {``
     private static final String URL = "https://reqres.in/api/login";
     private static String expectedToken = "QpwL5tke4Pnpja7X4";
     @Test
@@ -17,9 +19,8 @@ public class LoginTestPositiveExtended {
         LoginBodyModel loginBody = new LoginBodyModel();
         loginBody.setEmail("eve.holt@reqres.in");
         loginBody.setPassword("cityslicka");
-
         LoginResponseModel loginResponse = given()
-                .log().uri()
+                .filter(new AllureRestAssured())
                 .contentType(JSON)
                 .body(loginBody)
                 .when()
