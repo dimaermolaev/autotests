@@ -84,7 +84,7 @@ dependencies {
 
 }
 task junit(type: Test) {
-    delete "$buildDir/allure-results"
+    //delete "$buildDir/allure-results"
     useJUnitPlatform {
         includeTags "junit"
         excludeTags "st"
